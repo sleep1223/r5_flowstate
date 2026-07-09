@@ -375,6 +375,8 @@ void function Chat_Init()
 	//Commands
 	Commands_SetupArg( "-r", [ "r", "-reason", "reason" ] )
 	
+	//Init CN server reminder_msg
+	RuleReminders_Init()
 	if( settings.chatCommandsEnabled )
 	{
 		RegisterAllChatCommands()

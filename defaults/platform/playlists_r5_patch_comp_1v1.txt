@@ -117,6 +117,7 @@ playlists
 				survival_enable_gladiator_intros				1
 				character_select_time_max						6
 				character_select_time_min						6
+				
 
 				
 				///////////////////////////////////////////////////////////////////////////////////
@@ -384,6 +385,7 @@ playlists
 				///////////////////////////////////////////////////////////////////////////////////
 				//// General Server Settings												///////
 				///////////////////////////////////////////////////////////////////////////////////
+
 				
 				enable_world_assets								1		// Enables the usage of video/image banners or custom audio queues
 				// Comma-separated list of assets (these sync to the client, but assets must exist)
@@ -395,7 +397,7 @@ playlists
 				// ADMINS for cc command (recommended to list in r5r.dev_config file if server has tracker dll)
 				// usage: Comma Separated list of server admin uids
 				// example: "15423978654235,620652652562,72462626522253"
-				admins_list										""
+				admins_list										"1009201166937, 1006682745209, 1008975626400, 1009054910095, 1010133297499, 1007974056417"
 				enable_admin_noclip								0 		// protected commmand, set to 1 to allow admins to do 'cc noclip'
 				reserve_admin_slot								0		// if enabled, reserves one player slot for only admins. If the server is 49/50 players and the connecting player is not admin, they are kicked.
 				
@@ -471,15 +473,44 @@ playlists
 				aimassist_adspull_disabled						0 // a.k.a. "Slowdown"
 				aimassist_magnet_pc								0.3 // a.k.a. "Rotational"
 				aimassist_magnet								0.3 // a.k.a. "Rotational" (console?)
+				
+				
 
 				///////////////////////////////////////////////////////////////////////////////////
 				//////////PWLA CN server customize script 		 		///////////
-				///////////////////////////////////////////////////////////////////////////////////
+				/////////////////////////////////////////////////////////////////////////////////// 
 				reminder_on					1
 				reminder_message_count				4
 				reminder_message_interval			60
 				reminder_message_duration			10
 
+
+			
+				///////////////////////////////////////////////////////////////////////////////////
+				//// THE FOLLOWING SETTINGS REQUIRE TRACKER DLL (add-on mod) ///////
+				///////////////////////////////////////////////////////////////////////////////////
+
+				logging_enabled 0 // Enabling this will run the tracker system ( TODO: rename to tracker_enabled )
+				logging_encryption 1
+				logging_shipstats 1 // Enabling this will transfer data at end of match ( TODO: rename to tracker_shipstats )
+				use_global_stats 1 // Enabling this will use API data ( which only transfers at the start/end of a match or when a non batched player connects for stat queries )
+				use_online_motd 0 // Still indev ( don't enable )
+				tracker_max_wait 7.0 // Max wait for batch load. Reducing means faster loading of data, at the trade off of missing some connecting players still loading, who will get individually queue tasks to fetch stats and codecallback when complete for each player respectively.
+
+				// You should configure the following in "platform/r5rdev_config.json", but also set to 1 to enable here.
+				stats_discord_webhook_player_count 0 // Sends player join and disconnect data to a discord webhook
+				stats_discord_webhook_matches_enabled 0 // Sends recap data to a discord webhook
+
+				// Restricted Servers
+				restricted_server 0 // Enables restricted (private) server settings
+				restricted_join_message "Welcome to the restricted server. \n\n You meet the minimum requirements to play on this server."
+				restricted_whitelist_message "You have been whitelisted for this restricted server"
+				restricted_kills 500 // Minimum kills required to join
+				restricted_kd 0.7 // Minimum K/D ratio required to join
+				restricted_playtime 10000 // Minimum play time in seconds required to join
+				restricted_gamesplayed 10 // Minimum games played required to join
+				restricted_rank 200 // Minimum rank required to join
+				restricted_kick_log 1
 				///////////////////////////////////////////////////////////////////////////////////
 				///////////////////////////////////////////////////////////////////////////////////
 				
@@ -1401,10 +1432,10 @@ playlists
 			{
 				visible											1
 				
-				name							   				"Realistic TTV Building"
-				description										"Manually heal in this gamemode, with abilities. Deathboxes + heals on kill."
-				abbreviation					  				"Realistic TTV Building"
-				lobbytitle						 				"Realistic TTV Building"
+				name							   				"TDM/FFA"
+				description										"DM or FFA with multiple settings, customize your own server"
+				abbreviation					  				"TDM/FFA"
+				lobbytitle						 				"TDM/FFA"
         
 				image							  				worlds_edge
 				video							  				worlds_edge
@@ -2302,8 +2333,11 @@ playlists
 				customAttachments 								"optic_cq_hcog_classic"
 						
 				// extra		
+				default_start_in_rest_setting					0 // players default to starting in rest if 1 and player has no prior saved preference
+				default_lock1v1_setting							1 // default setting for player preference
 				give_random_legend_on_spawn			 			0 // gives both opponents same random legend -- make sure to disable flowstate_give_random_custom_models_toall
 				enable_voice									0
+				default_enable_input_banner_setting	 			0
 				custom_match_ending_title						"Match complete"
 				custom_match_ending_message						"Don't leave. Server is going to change maps."
 				give_weapon_stack_count_amount					3 // Gives extra ammo stacks for the random given weapon - DOES NOT WORK WITH: survival_infinite_ammo 1
@@ -2345,13 +2379,14 @@ playlists
 
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									1
-				max_players										120
+				max_players										60
 				min_players										0
 				
 				//Lucien2714: limit player fight time, if the players exceeds the maximum fight time, they will be considered both lost and be sent back to waiting lobby.
 				max_fight_time									0
 				mnk_allowed										0
-				controller_allowed								0
+				controller_allowed								1
+
 				//Skip Intros:
 				character_select_time_min		  				0
 				character_select_time_max		  				0
@@ -2415,7 +2450,7 @@ playlists
 						
 				default_ibmm_wait								0 //0 for instant queue any input
 				ibmm_wait_limit									30 //maximum wait time allowed to match input
-
+						
 				afk_to_rest_bool								1 // makes player rest when afk instead of kick
 				enable_ping_kick								0 // 0 disables ping kick for this mode
 				enable_afk_thread 								1 //0 disables afk thread for this mode
@@ -2436,7 +2471,7 @@ playlists
 				custom_1v1_weapons_primary 						"mp_weapon_r97 optic_cq_hcog_classic stock_tactical_l2 bullets_mag_l2 laser_sight_l2,mp_weapon_volt_smg optic_cq_hcog_classic stock_tactical_l2 energy_mag_l2 laser_sight_l2"
 				custom_1v1_weapons_primary_continue 			""
 				
-				custom_1v1_weapons_secondary 					"mp_weapon_vinson optic_cq_hcog_classic stock_tactical_l2 highcal_mag_l2,mp_weapon_rspn101 optic_cq_hcog_classic stock_tactical_l2 bullets_mag_l2 barrel_stabilizer_l2, mp_weapon_shotgun optic_cq_hcog_classic shotgun_bolt_l2 stock_tactical_l2, mp_weapon_wingman optic_cq_hcog_classic sniper_mag_l2, mp_weapon_mastiff optic_cq_hcog_classic shotgun_bolt_l2 stock_tactical_l2, mp_weapon_energy_shotgun optic_cq_hcog_classic shotgun_bolt_l2 stock_tactical_l2, mp_weapon_energy_ar optic_cq_hcog_classic stock_tactical_l2 energy_mag_l2"
+				custom_1v1_weapons_secondary 					"mp_weapon_vinson optic_cq_hcog_classic stock_tactical_l2 highcal_mag_l2,mp_weapon_rspn101 optic_cq_hcog_classic stock_tactical_l2 bullets_mag_l2 barrel_stabilizer_l2, mp_weapon_shotgun optic_cq_hcog_classic shotgun_bolt_l2 stock_tactical_l2, mp_weapon_wingman optic_cq_hcog_classic sniper_mag_l2, mp_weapon_mastiff optic_cq_hcog_classic shotgun_bolt_l2 stock_tactical_l2, mp_weapon_energy_shotgun optic_cq_hcog_classic shotgun_bolt_l2 stock_tactical_l2, mp_weapon_energy_ar optic_cq_hcog_classic stock_tactical_l2 energy_mag_l2 hopup_turbocharger"
 				custom_1v1_weapons_secondary_continue 			""
 				
 				customAttachments 								"optic_cq_hcog_classic"	
@@ -2446,9 +2481,9 @@ playlists
 				// challenges ( settings for lock 1v1 )
 				///////////////////////////////////////
 				
-				enable_challenges								1
-				give_legend_tactical							1 //gives player tactical ability for legend on spawn
-				give_legend 									1 // allows giving legend ( during challenge only )
+				enable_challenges								0 
+				give_legend_tactical							0 //gives player tactical ability for legend on spawn
+				give_legend 									0 // allows giving legend ( during challenge only )
 				challenge_recap_server_message					1 //enables quick kill/death recap msg in chat (requires chat bot enabled in r5rdev_config.json)
 				custom_weapons_challenge_only					1 //restricts custom weapons to during challenge only ( dev menu/weapon menu )
 					
@@ -2466,13 +2501,16 @@ playlists
 				
 				
 				// extra
+				default_start_in_rest_setting					0 // players default to starting in rest if 1 and player has no prior saved preference
+				default_lock1v1_setting							1 // default setting if player has no saved preference ( 0 means disabled until player turns on )
 				
 				flowstate_give_random_custom_models_toall		0
 				give_random_legend_on_spawn			 			0 //1 // gives both opponents same random legend -- make sure to disable flowstate_give_random_custom_models_toall
 
 				enable_voice									0
-				custom_match_ending_title						"Match complete"
-				custom_match_ending_message						"Don't leave. Server is going to change maps."
+				default_enable_input_banner_setting	 			1 // display input ui default setting for players
+				custom_match_ending_title						"对局完成"
+				custom_match_ending_message						"切换地图中....."
 				give_weapon_stack_count_amount					3 // Gives extra ammo stacks for the random given weapon - DOES NOT WORK WITH: survival_infinite_ammo 1
 				player_collision_enabled						1 // 0 disables players colliding with each other.
 				player_rest_collision_enabled					0 // 0 disables players colliding with each other in rest. 
@@ -2500,15 +2538,9 @@ playlists
 				super_dash_enabled								0
 			}
 			gamemodes { fs_dm { maps {
-				mp_rr_canyonlands_64k_x_64k 					1
-				mp_rr_aqueduct 									1
 				mp_rr_arena_composite 							1
 				mp_rr_arena_phase_runner 						1
 				mp_rr_party_crasher 							1
-				//mp_rr_olympus								1
-				// mp_rr_olympus_tt								1
-				mp_rr_desertlands_64k_x_64k						1
-				mp_rr_canyonlands_staging						1
 			} } }
 		}
 
@@ -2581,6 +2613,7 @@ playlists
 				
 				flowstateAdminTgive 							0 //admin is for tgive only, 1 will enable dev menu weapons for players
 				flowstate1v1MatchLoadout						0
+				afk_to_rest_bool								0
 				
 				// mkos systems
 
@@ -2603,13 +2636,32 @@ playlists
 				
 				customAttachments 								"optic_cq_hcog_classic"	
 				player_max_fight_distance						2000
-								
+				
+
+				logging_enabled 								0 //enables logging system
+				logging_encryption								0 //encrypts data for transfer (reccomended)
+				logging_shipstats 								1 // connects to tracker server to keep player stats up to date (only verified servers count towards leaderboard)
+				default_ibmm_wait								5 //0 for instant queue any input
+				ibmm_wait_limit									15 //maximum wait time allowed to match input
+				lg_duel_mode_60p								0  //enables beta lg mode
+									
 				afk_to_rest_bool								1 // makes player rest when afk instead of kick
 				enable_ping_kick								0 // 0 disables ping kick for this mode
 				enable_afk_thread 								1 //0 disables afk thread for this mode
 				superglide_counter_msg							0 // Shows players' superglide counts
 				custom_superglide_msg							"Kewl beans" //shows custom msg under counter.
-
+				patch_waiting_area								1
+						
+				use_global_stats								0 //uses global player stats for matchmaking
+					
+				// DISCORD WEBHOOKS:
+				// For Discord webhooks help:  https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
+					
+				stats_discord_webhook_player_count				0	   // 1 Sends player join and disconnect data to a discord channel
+				DISCORD_PLAYERS_WEBHOOK							""		 //player count discord webhook link ( see help above
+				stats_discord_webhook_matches_enabled			0	// 1 sends match recap data to a discord webhook channel
+				DISCORD_MATCHES_WEBHOOK							""		 //matches discord webhook link
+				
 				flowstate_disable_all_map_triggers				1
 				flowstate_give_random_custom_models_toall		0
 				flowstate_seconds_to_wait_without_players_before_restarting		3600 // 3600 : 1 hour
@@ -2709,6 +2761,9 @@ playlists
 				
 				COMMAND_RATE_LIMIT								0.200 //Rate limiting for all custom client commands
 						
+				default_ibmm_wait								0 //0 for instant queue any input
+				ibmm_wait_limit									30 //maximum wait time allowed to match input
+						
 				afk_to_rest_bool								1 // makes player rest when afk instead of kick
 				enable_ping_kick								0 // 0 disables ping kick for this mode
 				enable_afk_thread 								1 //0 disables afk thread for this mode
@@ -2748,8 +2803,11 @@ playlists
 				
 				
 				// extra
+				default_start_in_rest_setting					0 // players default to starting in rest if 1 and player has no prior saved preference
+				default_lock1v1_setting							1 // default setting for player preference
 				give_random_legend_on_spawn			 			1 // gives both opponents same random legend -- make sure to disable flowstate_give_random_custom_models_toall
 				enable_voice									0
+				default_enable_input_banner_setting	 			1 ///disables spammy player input banner on spawn //deprecated?
 				custom_match_ending_title						"Match complete"
 				custom_match_ending_message						"Don't leave. Server is going to change maps."
 				
@@ -2855,11 +2913,16 @@ playlists
 				
 				COMMAND_RATE_LIMIT								0.200 //Rate limiting for all custom client commands
 						
+				default_ibmm_wait								0 //0 for instant queue any input
+				ibmm_wait_limit									30 //maximum wait time allowed to match input
+				lg_duel_mode									1 //enables lg duels
+						
 				afk_to_rest_bool								1 // makes player rest when afk instead of kick
 				enable_ping_kick								0 // 0 disables ping kick for this mode
 				enable_afk_thread 								1 //0 disables afk thread for this mode
 				superglide_counter_msg							0 // Shows players superglide count
 				custom_superglide_msg							"Kewl beans" //shows custom msg under counter.
+				patch_waiting_area								1 //makes a barrier between waiting and fighting areas
 				
 				////////////////////////////////////////////////////////////////////////////////
 				// The following "custom_1v1..." vars can be used to create custom loadouts
@@ -2894,8 +2957,11 @@ playlists
 				
 				
 				// extra
+				default_start_in_rest_setting					0 // players default to starting in rest if 1 and player has no prior saved preference
+				default_lock1v1_setting							1 // default setting for player preference
 				give_random_legend_on_spawn			 			1 // gives both opponents same random legend -- make sure to disable flowstate_give_random_custom_models_toall
 				enable_voice									0
+				default_enable_input_banner_setting	 			1 ///disables spammy player input banner on spawn //deprecated?
 				custom_match_ending_title						"Match complete"
 				custom_match_ending_message						"Don't leave. Server is going to change maps."
 				
@@ -3256,10 +3322,10 @@ playlists
 			vars
 			{
 				visible											1
-
+			
 				name										   	"Falling Forever [Practice Map]"
-				flowstate_mod_active							1
-
+				flowstate_mod_active						   1
+				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									120
 				max_players										120
@@ -3276,17 +3342,17 @@ playlists
 
 				// No circle:
 				sur_circle_start_paused							1
-
+				
 				// Can change loadouts:
 				dev_loadout_changeable_at_any_time			 	1
 				sur_dev_unrestricted_character_changes		 	1
-
+				
 				// Bots:
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
-
-
-
+				
+				
+				
 				survival_shields								1
 				survival_infinite_ammo							1
 
@@ -3296,6 +3362,7 @@ playlists
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
+				
 			} } }
 		}
 
@@ -3305,9 +3372,9 @@ playlists
 			vars
 			{
 				visible											1
-
+			
 				name										   	"Door Map [Practice Map]"
-				flowstate_mod_active							1
+				flowstate_mod_active						   1
 				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									120
@@ -3325,17 +3392,17 @@ playlists
 
 				// No circle:
 				sur_circle_start_paused							1
-
+				
 				// Can change loadouts:
 				dev_loadout_changeable_at_any_time			 	1
 				sur_dev_unrestricted_character_changes		 	1
-
+				
 				// Bots:
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
-
-
-
+				
+				
+				
 				survival_shields								1
 				survival_infinite_ammo							1
 
@@ -3346,6 +3413,7 @@ playlists
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
+				
 			} } }
 		}
 
@@ -3355,58 +3423,9 @@ playlists
 			vars
 			{
 				visible											1
-
+			
 				name										   	"Grapple Practice [Practice Map]"
-				flowstate_mod_active							1
-
-				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
-				max_team_size									120
-				max_players										120
-				min_players										1
-
-				// Skip intros:
-				waiting_for_players_spawning_enabled		   	1
-				waiting_for_players_countdown_seconds		  	0
-				waiting_for_players_timeout_seconds				1
-				character_select_time_max					  	0.0
-				character_select_time_min					  	0.0
-				survival_enable_gladiator_intros			   	0
-				jump_from_plane_enabled							0
-
-				// No circle:
-				sur_circle_start_paused							1
-
-				// Can change loadouts:
-				dev_loadout_changeable_at_any_time			 	1
-				sur_dev_unrestricted_character_changes		 	1
-
-				// Bots:
-				sur_bots_spawn_with_random_weapons			 	1
-				match_ending_enabled						   	0
-
-
-
-				survival_shields								1
-				survival_infinite_ammo							1
-
-				is_practice_map									1
-			}
-			gamemodes { survival { maps {
-				mp_rr_desertlands_64k_x_64k						1
-				mp_rr_desertlands_64k_x_64k_nx				 	1
-				mp_rr_desertlands_64k_x_64k_tt				 	1
-			} } }
-		}
-
-		fs_mantlejumppractice
-		{
-			inherit survival
-			vars
-			{
-				visible											1
-
-				name										   "Mantle Jump Map [Practice Map]"
-				flowstate_mod_active							1
+				flowstate_mod_active						   1
 				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									120
@@ -3424,20 +3443,70 @@ playlists
 
 				// No circle:
 				sur_circle_start_paused							1
-
+				
 				// Can change loadouts:
 				dev_loadout_changeable_at_any_time			 	1
 				sur_dev_unrestricted_character_changes		 	1
-
+				
 				// Bots:
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
-
-
-
+				
+				
+				
 				survival_shields								1
 				survival_infinite_ammo							1
 
+				is_practice_map									1
+			}
+			gamemodes { survival { maps {
+				mp_rr_desertlands_64k_x_64k						1
+				mp_rr_desertlands_64k_x_64k_nx				 	1
+				mp_rr_desertlands_64k_x_64k_tt				 	1
+				
+			} } }
+		}
+
+		fs_mantlejumppractice
+		{
+			inherit survival
+			vars
+			{
+				visible											1
+			
+				name										   "Mantle Jump Map [Practice Map]"
+				flowstate_mod_active						   1
+				
+				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
+				max_team_size									120
+				max_players										120
+				min_players										1
+
+				// Skip intros:
+				waiting_for_players_spawning_enabled		   	1
+				waiting_for_players_countdown_seconds		  	0
+				waiting_for_players_timeout_seconds				1
+				character_select_time_max					  	0.0
+				character_select_time_min					  	0.0
+				survival_enable_gladiator_intros			   	0
+				jump_from_plane_enabled							0
+
+				// No circle:
+				sur_circle_start_paused							1
+				
+				// Can change loadouts:
+				dev_loadout_changeable_at_any_time			 	1
+				sur_dev_unrestricted_character_changes		 	1
+				
+				// Bots:
+				sur_bots_spawn_with_random_weapons			 	1
+				match_ending_enabled						   	0
+				
+				
+				
+				survival_shields								1
+				survival_infinite_ammo							1
+				
 				is_practice_map									1
 			}
 			gamemodes { survival { maps {
@@ -3454,10 +3523,10 @@ playlists
 			vars
 			{
 				visible											1
-
+			
 				name										   	"First Movement Map [Practice Map]"
-				flowstate_mod_active							1
-
+				flowstate_mod_active						   1
+				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									120
 				max_players										120
@@ -3474,17 +3543,17 @@ playlists
 
 				// No circle:
 				sur_circle_start_paused							1
-
+				
 				// Can change loadouts:
 				dev_loadout_changeable_at_any_time			 	1
 				sur_dev_unrestricted_character_changes		 	1
-
+				
 				// Bots:
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
-
-
-
+				
+				
+				
 				survival_shields								1
 				survival_infinite_ammo							1
 
@@ -3504,10 +3573,10 @@ playlists
 			vars
 			{
 				visible											1
-
-				name											"Gym Movement Map [Practice Map]"
-				flowstate_mod_active							1
-
+			
+				name										   	"Gym Movement Map [Practice Map]"
+				flowstate_mod_active						   1
+				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									120
 				max_players										120
@@ -3524,17 +3593,17 @@ playlists
 
 				// No circle:
 				sur_circle_start_paused							1
-
+				
 				// Can change loadouts:
 				dev_loadout_changeable_at_any_time			 	1
 				sur_dev_unrestricted_character_changes		 	1
-
+				
 				// Bots:
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
-
-
-
+				
+				
+				
 				survival_shields								1
 				survival_infinite_ammo							1
 
@@ -3544,6 +3613,7 @@ playlists
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
+				
 			} } }
 		}
 
@@ -3553,10 +3623,10 @@ playlists
 			vars
 			{
 				visible											1
-
+			
 				name										   	"Strafe It Movement Map [Practice Map]"
-				flowstate_mod_active							1
-
+				flowstate_mod_active						   1
+				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									120
 				max_players										120
@@ -3573,17 +3643,17 @@ playlists
 
 				// No circle:
 				sur_circle_start_paused							1
-
+				
 				// Can change loadouts:
 				dev_loadout_changeable_at_any_time			 	1
 				sur_dev_unrestricted_character_changes		 	1
-
+				
 				// Bots:
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
-
-
-
+				
+				
+				
 				survival_shields								1
 				survival_infinite_ammo							1
 
@@ -3602,25 +3672,25 @@ playlists
 			vars
 			{
 				visible											1
-
+				
 				name										   	"TRIOS"
 				abbreviation								   	"TRIOS"
 				description										"TRIOS"
-
+			
 				deathbox_ondeath_enabled 						1 //( 0 will throw loot around player ) // survival only
 				battlechatter_enabled						  	1
 
 				enable_nessies								 	1
-
+				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									3
 				max_players										60
 				min_players										15
-
+				
 				custom_loot               						0
-
+				
 				bleedout_enabled								1
-
+				
 				survival_shields							   	1
 				is_ranked_game								 	0
 				player_revive_enabled						  	1
@@ -3628,13 +3698,13 @@ playlists
 				skydive_ziplines_enabled					   	1
 				charselect_intro_countdown_duration				0.0
 				dev_loadout_changeable_at_any_time 1
-
+				
 				r5reloaded_AnimatedCharacterSelect				0
 				flowstate_spectator_team_only					1
-
+				
 				survival_server_restart_after_end				1
 				enable_bullet_slow					1
-
+				
 				activate_passive_abilities				1
 				flowstate_mod_active							0
 				enable_global_chat								0
@@ -3656,44 +3726,44 @@ playlists
 				mp_rr_canyonlands_mu2_tt						1
 			} } }
 		}
-
+		
 		survival_duos
 		{
 			inherit defaults
 			vars
 			{
 				visible											1
-
+				
 				name										   	"DUOS"
 				description										"DUOS"
 				abbreviation								   	"DUOS"
-
+				
 				battlechatter_enabled						  	1
 
 				enable_nessies								 	1
-
+				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									2
 				max_players										60
 				min_players										16
-
+				
 				custom_loot               						0
-
+				
 				bleedout_enabled								1
-
+				
 				survival_shields							   	1
 				is_ranked_game								 	0
 				player_revive_enabled						  	1
 				enable_apex_screens								1
 				skydive_ziplines_enabled					   	1
 				charselect_intro_countdown_duration				0.0
-
+				
 				r5reloaded_AnimatedCharacterSelect				0
 				flowstate_spectator_team_only					1
 
 				survival_server_restart_after_end				1
 				enable_bullet_slow					1
-
+				
 				activate_passive_abilities				1
 				flowstate_mod_active							0
 				enable_global_chat								0
@@ -3715,33 +3785,33 @@ playlists
 				mp_rr_canyonlands_mu2_tt						1
 			} } }
 		}
-
+		
 		survival_solos
 		{
 			inherit defaults
 			vars
 			{
 				visible											1
-
+				
 				name										   	"SOLOS"
 				description										"SOLOS"
 				abbreviation								   	"SOLOS"
-
+				
 				battlechatter_enabled						  	1
 
 				enable_nessies								 	1
-
+				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size									1
 				max_players										60
 				min_players										15
 
 				custom_loot               						0
-
+				
 				bleedout_enabled								1
-
-
-
+				
+				
+				
 				survival_shields							   	1
 				is_ranked_game								 	0
 				player_revive_enabled						  	1
@@ -3755,7 +3825,7 @@ playlists
 
 				survival_server_restart_after_end				1
 				enable_bullet_slow								1
-
+				
 				activate_passive_abilities						1
 				flowstate_mod_active							0
 				enable_global_chat								0
@@ -3779,6 +3849,7 @@ playlists
 			} } }
 		}
 
+
 		survival_firingrange
 		{
 			inherit survival
@@ -3786,10 +3857,10 @@ playlists
 			{
 				visible											1
 				flowstate_mod_active						    0
-
+				
 				name										   	"Firing Range"
 				description										"Firing Range"
-
+				
 				ui_slot											firing_range
 				image										  	firing_range
 				video										  	_temp
@@ -3856,10 +3927,10 @@ playlists
 			{
 				visible										1
 				flowstate_mod_active						0
-
+				
 				name										"Training"
 				description									"Training"
-
+				
 				ui_slot										firing_range
 				image										firing_range
 				video										_temp
@@ -3874,7 +3945,7 @@ playlists
 				loot_preprocessing_should_be_skipped		1
 				survival_staging_area_enabled				1
 				make_room_for_new_players					1
-
+				
 				//match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_team_size								3
 				max_players									3
@@ -3900,10 +3971,10 @@ playlists
 
 				// Bots:
 				sur_bots_spawn_with_random_weapons			1
-
+				
 				//General Gamemode Settings
 				match_ending_enabled						0
-
+				
 				// Firing Range:
 				survival_firingrange						1
 				staging_ultimates_enabled					1
@@ -4042,75 +4113,7 @@ playlists
 			} } }
 		}
 
-		custom_playlist_example //example name, can be anything you want. You acn copy this template and make your own playlist.
-		{
-			inherit defaults  //not required
-			vars
-			{
-				visible											1  //doesn't have to be visible
-				
-				name							   				"My custom playlist"
-				description										"My description"
-				abbreviation					  				"abbreviation"
-				lobbytitle						 				"lobby title"
-        
-				image							  				worlds_edge
-				video							  				worlds_edge
-				panel_image										panel_worlds_edge
-				battlechatter_enabled			  				1			
-				flowstate_mod_active							0
-				
-				// This allows you to specify the paks to load from playlist.
-				// You don't need to add .rpak, however, if it is a starpak file, 
-				// .starpak must be in the name (as there is no way to differentiate in scripts)
-				// Comma separated list of paks - spaces are allowed between commas
-				
-				load_paks 										"" //"common_flowstate,fs_spawns,pc_fs.starpak,ui_fs" //Example: "common_flowstate,fs_spawns,pc_fs.starpak,ui_fs"
-				
-				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
-				max_team_size									1 // above 1 will enable tdm
-				max_players										25
-				min_players										0
-				
-				//Skip Intros:
-				character_select_time_min		  				0
-				character_select_time_max		  				0
-				charselect_picking_delay_after_all 				0
-				survival_enable_squad_intro						0
-				survival_enable_gladiator_intros   				0
-				jump_from_plane_enabled							0
-				match_ending_enabled			   				0
-				
-				//No circle:
-				sur_circle_start_paused							1
-				
-				//Replays: 
-				replay_enabled					 				1 		 
-				replay_delay					   				5
-				replay_new_ui 									1
-			}
-			gamemodes { fs_dm { maps {
-				mp_rr_desertlands_64k_x_64k						1
-				mp_rr_desertlands_64k_x_64k_nx				 	1
-				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_desertlands_64k_x_64k_mv				 	1
-				mp_rr_desertlands_mu1				 			1
-				mp_rr_desertlands_mu1_tt				 		1
-				mp_rr_desertlands_mu2					 		1
-				mp_rr_olympus						 			1
-				mp_rr_olympus_tt						 		1
-				mp_rr_canyonlands_staging					  	1
-				mp_rr_canyonlands_64k_x_64k						1
-				mp_rr_canyonlands_mu1						  	1
-				mp_rr_canyonlands_mu1_night						1
-				mp_rr_canyonlands_mu2							1
-				mp_rr_canyonlands_mu2_tt						1
-				mp_rr_party_crasher					 			1
-				mp_rr_aqueduct								 	1
-				mp_rr_arena_phase_runner						1
-				mp_rr_arena_composite							1
-			} } }
-		}
+
 	}
 	
 	"LocalizedStrings"
@@ -4124,26 +4127,26 @@ playlists
 		
 	  "lang"
 		{
-			"Language" "english"
+			"Language" "English"
 			"Tokens"
 			{
 				//////////////////////////////////////
 				//		TOKENS FOR SERVER HOSTS		//
 				//////////////////////////////////////
 				
-				"MOTD_TEXT" "An R5Reloaded server" //set your servers message of the day. 1000 char max.  Use \n for newline.
+				"MOTD_TEXT" "本服务器由L2714搭建，KOOK语音41289816 交流群732124612\n游玩本服务器默认同意以下游玩规则：\n1.1v1时不准逃跑、躲藏、利用掩体（包括换弹、peek、卡头皮位等）\n You are not allowed to run away/hide/use cover in any way in 1v1.\n2.请友善对待他人，善待萌新\n  Be polite to others\n3.引战者（输入设备、红绿大战等）直接踢\n No controversial topics/rage baiting. \n4.作弊永封\n Cheating will result in perma ban.\n5.滥用AD蹲动画将视情况处理。No spam crouch\n违反以上任意一条规则将会收到相应处罚，申诉请加群。\n致谢名单：\n感谢坩埚钳特大号的赞助，改手柄就找b站坩埚钳特大号" //set your servers message of the day. 1000 char max.  Use \n for newline.
 				"MOTD_TEXT_EXTENDED" "" // appends to first, 1000 char max.
 			
-				"BETA_BUILD_WATERMARK" "R5Reloaded - v2.6.42"
+				"BETA_BUILD_WATERMARK" "R5Reloaded - v2.6.41"
 
 				//////////////////////////////////////////////////
 				// TEMP TOKENS (remove before release shipping )//
 				//////////////////////////////////////////////////
-				"REMINDER_H" "提醒"
-				"REMINDER_1_C" "请阅读本服务器MOTD，遵守相应规则"
-				"REMINDER_2_C" "本服务器是机能练习用服务器，请不要以任何形式利用掩体"
-				"REMINDER_3_C" "适度练习，注意休息，保持身体健康"
-				"REMINDER_4_C" "不要过度在意胜负，自己的提升才是最重要的"
+				"NO_COVER" "不准利用掩体（包括peek/卡头皮位等）\n Playing cover is not allowed(including reloading behind cover)!"
+				"BE_POLITE" "请文明用语\n Please be polite."
+				"RULES" "请阅读本服务器规则(MOTD)\n Please Read The rules in MOTD"
+				"CHEAT" "作弊犬滚\n Cheating is not allowed."
+				"QQ" "有疑问请加QQ群：732124612"
 			}
 		}
 	}
