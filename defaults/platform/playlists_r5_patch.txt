@@ -2350,8 +2350,8 @@ playlists
 				
 				//Lucien2714: limit player fight time, if the players exceeds the maximum fight time, they will be considered both lost and be sent back to waiting lobby.
 				max_fight_time									0
-				mnk_allowed										0
-				controller_allowed								0
+				mnk_allowed										1
+				controller_allowed								1
 				//Skip Intros:
 				character_select_time_min		  				0
 				character_select_time_max		  				0

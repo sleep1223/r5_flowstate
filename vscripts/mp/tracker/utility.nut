@@ -107,6 +107,7 @@ struct
 	bool bStopUpdateMsg
 	bool bAutoRotationEnabled
 	bool bAllowLooseNameComp
+	bool bRuleRemindersInitialized
 	
 } file
 
@@ -3686,45 +3687,60 @@ bool function IsMapPlaylistGamemodeRotationEnabled()
 	return file.bAutoRotationEnabled
 }
 
-void function RuleReminder(int total_msg, int interval, int duration){
-	if(interval<=0){
-		sqerror("RuleReminder: Invalid interval value:", interval)
-		return
-	}
-	while(true){
-		sqprint("RuleReminder: Started with", total_msg, "messages at", interval, "second intervals for", duration, "seconds each.", "game state:",GetGameState())
-		if(GamePlaying()){
-			if(total_msg<=0 || interval<=0){
-				return
-			}
-			int current_message=RandomIntRange(1,total_msg)
-			sqprint("RuleReminder: Sending message REMINDER_",current_message,"_C to all players.")
-			foreach ( say_to_player in GetPlayerArray())
+void function RuleReminder( int totalMessages, int interval, int duration )
+{
+	for( ; ; )
+	{
+		if( GamePlaying() )
+		{
+			int currentMessage = RandomIntRange( 1, totalMessages + 1 )
+			sqprint( "RuleReminder: Sending message REMINDER_", currentMessage, "_C to all players." )
+
+			foreach ( player in GetPlayerArray() )
 			{
+				if( !IsValid( player ) )
+					continue
+
 				try
 				{
-					Message( say_to_player, "#REMINDER_H", format("#REMINDER_%d_C",current_message), 10 )
+					Message( player, "#REMINDER_H", format( "#REMINDER_%d_C", currentMessage ), duration )
 				}
-				catch ( errc )
+				catch ( error )
 				{
-					sqwarning( "RuleReminder: Failed to send message with error:", errc )
+					sqwarning( "RuleReminder: Failed to send message with error:", error )
 				}
 			}
 		}
-		wait(interval)
-	}
 
+		wait interval
+	}
 }
 
-void function RuleReminders_Init(){
-	sqprint("RuleReminders_Init: Checking if reminders are enabled for playlist:", GetCurrentPlaylistName(), "reminder_on =", GetPlaylistVarBool( GetCurrentPlaylistName(), "reminder_on", false ))
-	if(!GetPlaylistVarBool( GetCurrentPlaylistName(), "reminder_on", false )){
+void function RuleReminders_Init()
+{
+	if( file.bRuleRemindersInitialized )
+		return
+
+	file.bRuleRemindersInitialized = true
+
+	string playlistName = GetCurrentPlaylistName()
+	bool remindersEnabled = GetPlaylistVarBool( playlistName, "reminder_on", false )
+	sqprint( "RuleReminders_Init: Checking if reminders are enabled for playlist:", playlistName, "reminder_on =", remindersEnabled )
+
+	if( !remindersEnabled )
+		return
+
+	int totalMessages = GetPlaylistVarInt( playlistName, "reminder_message_count", 0 )
+	int interval = GetPlaylistVarInt( playlistName, "reminder_message_interval", 60 )
+	int duration = GetPlaylistVarInt( playlistName, "reminder_message_duration", 10 )
+
+	if( totalMessages <= 0 || interval <= 0 || duration <= 0 )
+	{
+		sqerror( "RuleReminders_Init: invalid reminder settings:", totalMessages, interval, duration )
 		return
 	}
-	int total_messages=GetPlaylistVarInt( GetCurrentPlaylistName(), "reminder_message_count", 0 )
-	int interval=GetPlaylistVarInt( GetCurrentPlaylistName(), "reminder_message_interval", 60 )
-	int duration=GetPlaylistVarInt( GetCurrentPlaylistName(), "reminder_message_duration", 10 )
-	thread RuleReminder(total_messages, interval, duration)
+
+	thread RuleReminder( totalMessages, interval, duration )
 }
 
 #if DEVELOPER

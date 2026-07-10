@@ -36,10 +36,11 @@ global enum e1v1State
 	RESTING,
 	RECAP,
 	SPECTATING,
-	INVALID_INPUT,
 	
 	//coaching mode
-	WATCHING_FIGHT_REPLAY
+	WATCHING_FIGHT_REPLAY,
+
+	INVALID_INPUT
 }
 
 global struct LocationSettings
