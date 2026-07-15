@@ -573,7 +573,7 @@ bool function Chat_ToggleMuteForAll( entity player, bool toggle = true, bool cmd
 			LocalMsg( player, "#FS_SPAM_MUTE", "", eMsgUI.DEFAULT, 5, "", reason )//Token name is misleading..just trust.
 		}
 		
-		#if TRACKER
+		#if TRACKER && HAS_TRACKER_DLL
 			if( cmdLine )
 			{
 				if( timeoutAmount > 0 ) //-1
@@ -602,7 +602,7 @@ bool function Chat_ToggleMuteForAll( entity player, bool toggle = true, bool cmd
 			ToggleMute( player, toggle )
 		#endif
 		
-		#if !TRACKER
+		#if !TRACKER || !HAS_TRACKER_DLL
 			foreach ( s_player in GetPlayerArray() )
 			{
 				if( !IsValid( s_player ) || player == s_player )
