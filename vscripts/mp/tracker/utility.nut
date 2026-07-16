@@ -2110,7 +2110,7 @@ void function TrackerUtilityInit()
 			}			
 			case "restart_ws":
 			{
-				#if TRACKER 
+				#if TRACKER && HAS_TRACKER_DLL
 					TrackerRestartWebsocket__internal() //useful if websocket server goes down for some reason and admin wants to manually reset connection from cc		
 					Message( player, "Success", "Restarting websocket connection to r5r.dev" )
 				#else
@@ -2664,8 +2664,15 @@ entity function GetPlayerEntityByUID( string str )
 			// }
 		// #endif
 
-		if( !empty( str ) && Tracker_IsPlayerMetricsInitialized( str ) )	
-			return Tracker_StatsMetricsByUID( str ).ent
+		if( !empty( str ) && Tracker_IsPlayerMetricsInitialized( str ) )
+		{
+			PlayerMetrics metrics = Tracker_StatsMetricsByUID( str )
+			if( IsValid( metrics.ent ) )
+				return metrics.ent
+
+			if( metrics.playerHandle >= 0 )
+				return GetEntityFromEncodedEHandle( metrics.playerHandle )
+		}
 	#else
 		
 		if ( !IsStringNumber( str ) )
@@ -3687,7 +3694,7 @@ bool function IsMapPlaylistGamemodeRotationEnabled()
 	return file.bAutoRotationEnabled
 }
 
-void function RuleReminder( int totalMessages, int interval, int duration )
+void function RuleReminder( int totalMessages, int interval, float duration )
 {
 	for( ; ; )
 	{
@@ -3732,7 +3739,7 @@ void function RuleReminders_Init()
 
 	int totalMessages = GetPlaylistVarInt( playlistName, "reminder_message_count", 0 )
 	int interval = GetPlaylistVarInt( playlistName, "reminder_message_interval", 60 )
-	int duration = GetPlaylistVarInt( playlistName, "reminder_message_duration", 10 )
+	float duration = GetPlaylistVarFloat( playlistName, "reminder_message_duration", 10.0 )
 
 	if( totalMessages <= 0 || interval <= 0 || duration <= 0 )
 	{

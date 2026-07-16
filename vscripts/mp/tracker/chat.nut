@@ -596,7 +596,7 @@ bool function Chat_ToggleMuteForAll( entity player, bool toggle = true, bool cmd
 			string byPlayerUid = IsValid( entByPlayer ) && entByPlayer.IsPlayer() ? entByPlayer.p.UID : SERVER_MUTE
 			byPlayerUid = byPlayer != "" ? byPlayer : byPlayerUid
 			
-			string expiry = timestamp <= 0 ? "" : Chat_ReadableExpiresTime( timestamp )		
+			string expiry = timestamp <= 0 ? "" : Chat_ReadableExpiresTime( timestamp )
 			ToggleTextBan( uid, reason, expiry, byPlayerUid, toggle, timestamp )//code func
 		#else
 			ToggleMute( player, toggle )
@@ -1293,7 +1293,7 @@ void function ChatWatchdog( entity player, array<string> args )
 	if( !IsValid( player ) )
 		return
 		
-	#if TRACKER
+	#if TRACKER && HAS_TRACKER_DLL
 		if( player.IsMuted() )
 			return
 	#endif
