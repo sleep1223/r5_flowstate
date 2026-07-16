@@ -65,7 +65,6 @@ global function IsMapPlaylistGamemodeRotationEnabled
 global function DecideNextMapPlaylistGamemodeRotation
 global function IsValidCharacterGUID
 global function TP
-global function RuleReminders_Init
 
 //code callbacks
 global function CodeCallback_SendMessage
@@ -107,7 +106,6 @@ struct
 	bool bStopUpdateMsg
 	bool bAutoRotationEnabled
 	bool bAllowLooseNameComp
-	bool bRuleRemindersInitialized
 	
 } file
 
@@ -2110,7 +2108,7 @@ void function TrackerUtilityInit()
 			}			
 			case "restart_ws":
 			{
-				#if TRACKER && HAS_TRACKER_DLL
+				#if TRACKER
 					TrackerRestartWebsocket__internal() //useful if websocket server goes down for some reason and admin wants to manually reset connection from cc		
 					Message( player, "Success", "Restarting websocket connection to r5r.dev" )
 				#else
@@ -2665,14 +2663,7 @@ entity function GetPlayerEntityByUID( string str )
 		// #endif
 
 		if( !empty( str ) && Tracker_IsPlayerMetricsInitialized( str ) )
-		{
-			PlayerMetrics metrics = Tracker_StatsMetricsByUID( str )
-			if( IsValid( metrics.ent ) )
-				return metrics.ent
-
-			if( metrics.playerHandle >= 0 )
-				return GetEntityFromEncodedEHandle( metrics.playerHandle )
-		}
+			return Tracker_StatsMetricsByUID( str ).ent
 	#else
 		
 		if ( !IsStringNumber( str ) )
@@ -3692,62 +3683,6 @@ void function DecideNextMapPlaylistGamemodeRotation()
 bool function IsMapPlaylistGamemodeRotationEnabled()
 {
 	return file.bAutoRotationEnabled
-}
-
-void function RuleReminder( int totalMessages, int interval, float duration )
-{
-	for( ; ; )
-	{
-		if( GamePlaying() )
-		{
-			int currentMessage = RandomIntRange( 1, totalMessages + 1 )
-			sqprint( "RuleReminder: Sending message REMINDER_", currentMessage, "_C to all players." )
-
-			foreach ( player in GetPlayerArray() )
-			{
-				if( !IsValid( player ) )
-					continue
-
-				try
-				{
-					Message( player, "#REMINDER_H", format( "#REMINDER_%d_C", currentMessage ), duration )
-				}
-				catch ( error )
-				{
-					sqwarning( "RuleReminder: Failed to send message with error:", error )
-				}
-			}
-		}
-
-		wait interval
-	}
-}
-
-void function RuleReminders_Init()
-{
-	if( file.bRuleRemindersInitialized )
-		return
-
-	file.bRuleRemindersInitialized = true
-
-	string playlistName = GetCurrentPlaylistName()
-	bool remindersEnabled = GetPlaylistVarBool( playlistName, "reminder_on", false )
-	sqprint( "RuleReminders_Init: Checking if reminders are enabled for playlist:", playlistName, "reminder_on =", remindersEnabled )
-
-	if( !remindersEnabled )
-		return
-
-	int totalMessages = GetPlaylistVarInt( playlistName, "reminder_message_count", 0 )
-	int interval = GetPlaylistVarInt( playlistName, "reminder_message_interval", 60 )
-	float duration = GetPlaylistVarFloat( playlistName, "reminder_message_duration", 10.0 )
-
-	if( totalMessages <= 0 || interval <= 0 || duration <= 0 )
-	{
-		sqerror( "RuleReminders_Init: invalid reminder settings:", totalMessages, interval, duration )
-		return
-	}
-
-	thread RuleReminder( totalMessages, interval, duration )
 }
 
 #if DEVELOPER

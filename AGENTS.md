@@ -4,6 +4,13 @@
 
 This repository contains the deployable R5/Flowstate runtime content. Game scripts live under `vscripts/`; playlist configuration lives in `defaults/platform/`; Flowstate mod resources and RPaks live in `defaults/mods/Flowstate/`. Treat archives such as `sleep1223_r5_flowstate.zip` as generated local artifacts, not source.
 
+## Tracker Overlay Ownership
+
+- The clean Flowstate branch keeps `vscripts/mp/tracker/`, `vscripts/mp/pintelemetry.gnut`, and `vscripts/sh_consts.gnut` at the Flowstate upstream baseline, with `TRACKER` and `HAS_TRACKER_DLL` disabled.
+- The Tracker-enabled runtime overlay is owned by `D:\Project\r5\sleep1223-r5sdk\src\resource\vscripts`, including the Tracker scripts, native-contract compatibility, match reporting, and Tracker feature flags.
+- Deploy the Flowstate base first and the SDK resource overlay second. Reversing this order overwrites the Tracker-enabled scripts with the clean baseline.
+- Do not copy local Tracker integration changes back into the clean Flowstate branch. Advance these files here only when deliberately updating the Flowstate upstream baseline, then revalidate the SDK overlay contracts.
+
 ## R5 VScript Rules
 
 - Do not execute functions at file top level. The script compiler rejects global statements such as `SomeInit()` with `Global variable definition is followed by "("`. Declare/init functions in the script file, load them before callers in `scripts.rson`, and invoke them from an existing initialization entry point such as a `*_LevelInit()` or other established `*_Init()` function.

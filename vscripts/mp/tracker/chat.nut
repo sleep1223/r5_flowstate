@@ -375,8 +375,6 @@ void function Chat_Init()
 	//Commands
 	Commands_SetupArg( "-r", [ "r", "-reason", "reason" ] )
 	
-	//Init CN server reminder_msg
-	RuleReminders_Init()
 	if( settings.chatCommandsEnabled )
 	{
 		RegisterAllChatCommands()
@@ -573,7 +571,7 @@ bool function Chat_ToggleMuteForAll( entity player, bool toggle = true, bool cmd
 			LocalMsg( player, "#FS_SPAM_MUTE", "", eMsgUI.DEFAULT, 5, "", reason )//Token name is misleading..just trust.
 		}
 		
-		#if TRACKER && HAS_TRACKER_DLL
+		#if TRACKER
 			if( cmdLine )
 			{
 				if( timeoutAmount > 0 ) //-1
@@ -602,7 +600,7 @@ bool function Chat_ToggleMuteForAll( entity player, bool toggle = true, bool cmd
 			ToggleMute( player, toggle )
 		#endif
 		
-		#if !TRACKER || !HAS_TRACKER_DLL
+		#if !TRACKER
 			foreach ( s_player in GetPlayerArray() )
 			{
 				if( !IsValid( s_player ) || player == s_player )
@@ -1293,7 +1291,7 @@ void function ChatWatchdog( entity player, array<string> args )
 	if( !IsValid( player ) )
 		return
 		
-	#if TRACKER && HAS_TRACKER_DLL
+	#if TRACKER
 		if( player.IsMuted() )
 			return
 	#endif
